@@ -3,30 +3,55 @@ let humanScore = 0
 let computerScore = 0
 let computerChoice = ""
 let humanChoice = ""
+let rounds = 0
+
+// DOM Stuff
+const container = document.getElementById('buttons');
+const choices = ['Rock', 'Paper', 'Scissors'];
+const scoreboard= document.getElementById('scoreboard');
+let score= document.getElementById('score');
+let text= document.getElementById('text');
+
+choices.forEach(choice => {
+    const button = document.createElement('button');
+    button.textContent = choice;
+    button.addEventListener('click', () => {
+        playRound(choice, rounds);
+    });
+    container.appendChild(button);
+});
+
 
 // Main Methods
-function playRound(roundNumber) {
-    console.log("Round " + roundNumber + "!")
+function playRound(humanChoice, rounds) {
     computerChoice = getComputerChoice();
-    humanChoice = getHumanChoice();
     if (humanChoice === computerChoice) {
-        console.log("It's a tie!");
+        text.textContent = "It's a tie!"
     } else if (
         (humanChoice === "Rock" && computerChoice === "Scissors") ||
         (humanChoice === "Paper" && computerChoice === "Rock") ||
         (humanChoice === "Scissors" && computerChoice === "Paper")
     ) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}!`);
+        text.textContent = `You win! ${humanChoice} beats ${computerChoice}!`;
         humanScore += 1;
     } else if (
         (computerChoice === "Rock" && humanChoice === "Scissors") ||
         (computerChoice === "Paper" && humanChoice === "Rock") ||
         (computerChoice === "Scissors" && humanChoice === "Paper")
     ) {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}!`);
+        text.textContent = `You lose! ${computerChoice} beats ${humanChoice}!`;
         computerScore += 1;
     } else {
-        console.log("Invalid choices!");
+        text.textContent = "Invalid choices!";
+    }
+    score.textContent = `You - ${humanScore} Computer - ${computerScore}`;
+    rounds += 1;
+    if (rounds = 5) {
+        if(humanScore > computerScore) {
+            score.textContent = "You've won the game!";
+        } else if (humanScore < computerScore) {
+            score.textContent = "You've lost the game!";
+        }
     }
 }
 
@@ -83,5 +108,3 @@ function getHumanChoice() {
     return output;
 }
 
-// Main
-playGame();
